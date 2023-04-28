@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/pages/camera/camera_screen.dart';
 import 'package:frontend/pages/dashboard/widgets/dashboard_buttons.dart';
-import 'package:frontend/pages/result_page.dart';
+import 'package:frontend/pages/result/result_page.dart';
 import 'package:frontend/utils/route.dart';
 import 'package:frontend/utils/theme.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,59 +26,81 @@ class DashboardPage extends ConsumerWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: NutCrackerTheme.appUiOverlayStyleLight,
       child: Scaffold(
+        appBar: AppBar(),
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Dashboard',
-                  style: textTheme.displaySmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 24),
-                Padding(
-                  padding: const EdgeInsets.only(right: 18.0),
-                  child: Text(
-                    'Select an Image from gallery or take a picture',
-                    style: textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.w400,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                  bottom: -50,
+                  child: Opacity(
+                    opacity: 0.25,
+                    child: Image.asset(
+                      'assets/bg.png',
+                      fit: BoxFit.fitHeight,
                     ),
-                  ),
-                ),
-                const Spacer(flex: 2),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  )),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    DashboardButton(
-                      icon: FeatherIcons.image,
-                      title: 'Gallery',
-                      onTap: () async {
-                        final image = await ref
-                            .read(imagePickerProvider)
-                            .pickImage(source: ImageSource.gallery);
-                        final byteImage = await image?.readAsBytes();
-                        if (image != null) {
-                          ref.read(currentImageProvider.notifier).update((state) => byteImage!);
-                          ref.read(routerProvider).push(ResultPage.routeName);
-                        }
-                      },
+                    Text(
+                      'Dashboard',
+                      style: textTheme.displaySmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                    DashboardButton(
-                      icon: FeatherIcons.camera,
-                      title: 'Camera',
-                      onTap: () {
-                        ref.read(routerProvider).push(CameraScreen.routeName);
-                      },
+                    const SizedBox(height: 24),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 18.0),
+                      child: Text(
+                        'Select an Image from gallery or take a picture',
+                        style: textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 18,
+                        ),
+                      ),
                     ),
+                    const Spacer(flex: 2),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        DashboardButton(
+                          icon: FeatherIcons.image,
+                          title: 'Gallery',
+                          onTap: () async {
+                            final image = await ref
+                                .read(imagePickerProvider)
+                                .pickImage(source: ImageSource.gallery);
+                            if (image == null) return;
+
+                            final compressedImage = await FlutterImageCompress.compressWithFile(
+                              image.path,
+                              minHeight: 640,
+                              minWidth: 640,
+                            );
+
+                            final byteImage = compressedImage ?? await image.readAsBytes();
+
+                            ref.read(currentImageProvider.notifier).update((state) => byteImage);
+                            ref.read(routerProvider).push(ResultPage.routeName);
+                          },
+                        ),
+                        DashboardButton(
+                          icon: FeatherIcons.camera,
+                          title: 'Camera',
+                          onTap: () {
+                            ref.read(routerProvider).push(CameraScreen.routeName);
+                          },
+                        ),
+                      ],
+                    ),
+                    const Spacer(flex: 2),
+                    const SizedBox(height: 24),
                   ],
                 ),
-                const Spacer(flex: 2),
-                const SizedBox(height: 24),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

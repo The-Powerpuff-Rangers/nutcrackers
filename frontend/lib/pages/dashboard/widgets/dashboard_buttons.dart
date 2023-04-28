@@ -10,25 +10,29 @@ class DashboardButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(),
-        ),
-        child: Column(
-          children: [
-            Icon(
-              icon,
-              size: 32,
-            ),
-            Text(
-              title,
-              style: textTheme.titleMedium,
-            ),
-          ],
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(),
+            color: Colors.white70.withOpacity(0.5),
+          ),
+          child: Column(
+            children: [
+              Icon(
+                icon,
+                size: 32,
+              ),
+              Text(
+                title,
+                style: textTheme.titleMedium,
+              ),
+            ],
+          ),
         ),
       ),
     );

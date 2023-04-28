@@ -1,16 +1,21 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/pages/camera/widgets/camera_icon_button.dart';
 import 'package:frontend/pages/camera/widgets/focus_point_widget.dart';
 import 'package:frontend/pages/camera/widgets/shutter_button.dart';
+import 'package:frontend/pages/dashboard/dashboard_page.dart';
+import 'package:frontend/pages/result/result_page.dart';
 import 'package:frontend/utils/app_colors.dart';
+import 'package:frontend/utils/route.dart';
 import 'package:frontend/utils/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
@@ -245,7 +250,14 @@ class _CameraScreenState extends ConsumerState<CameraScreen> with WidgetsBinding
                         if (file == null) {
                           return;
                         }
-                        final byteData = await file.readAsBytes();
+                        final compressedImage = await FlutterImageCompress.compressWithFile(
+                          file.path,
+                          minHeight: 640,
+                          minWidth: 640,
+                        );
+                        final byteData = compressedImage ?? await file.readAsBytes();
+                        ref.read(currentImageProvider.notifier).update((state) => byteData);
+                        ref.read(routerProvider).push(ResultPage.routeName);
                       },
                     )),
                 Positioned(bottom: 36, child: _cameraShutter()),
@@ -265,12 +277,18 @@ class _CameraScreenState extends ConsumerState<CameraScreen> with WidgetsBinding
             return;
           }
 
-          final router = GoRouter.of(context);
           final scaffoldMessenger = ScaffoldMessenger.of(context);
 
           try {
             final file = await _controller.takePicture();
-            Uint8List image = await file.readAsBytes();
+            final compressedImage = await FlutterImageCompress.compressWithFile(
+              file.path,
+              minHeight: 640,
+              minWidth: 640,
+            );
+            final image = compressedImage ?? await file.readAsBytes();
+            ref.read(currentImageProvider.notifier).update((state) => image);
+            ref.read(routerProvider).push(ResultPage.routeName);
 
             // final ImmutableBuffer buffer = await ImmutableBuffer.fromUint8List(image);
             // final ImageDescriptor descriptor = await ImageDescriptor.encoded(buffer);

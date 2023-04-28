@@ -17,6 +17,7 @@ final clientProvider = Provider<Client>((ref) {
   final Dio dio = Dio(BaseOptions(
     baseUrl: 'http://10.100.40.135:5000',
     contentType: 'application/json',
+    receiveTimeout: const Duration(seconds: 5),
   ));
   return Client(dio);
 });

@@ -6,3 +6,6 @@ __pycache__
 
 # tmp files
 tmp
+
+# test scripts
+test.py

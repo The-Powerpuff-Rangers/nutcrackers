@@ -11,7 +11,7 @@ import base64
 app = flask.Flask(__name__)
 
 # Initialize the YOLO model
-model = YOLO("model/yolov8_v2.pt")
+model = YOLO("model/yolov8_v2.pt", agnostic_nms=True)
 
 def _decode(img: str) -> np.ndarray:
     """Decode the image from base64 format.
@@ -42,7 +42,8 @@ def predict():
         The image with bounding boxes.
     """
     # Decode the image
-    img = _decode(request.data['image'])
+    data = request.get_json()
+    img = _decode(data['image'])
     # Predict the bounding boxes
     result = model(img)[0]
 
@@ -51,4 +52,22 @@ def predict():
 
     # Encode the image
     img = _encode(frame)
-    return jsonify({"image": img})
+
+    context = {
+        "image": img,
+        "data": [
+            {
+                "label": "Type A",
+                "count": 10
+            },
+            {
+                "label": "Type B",
+                "count": 20
+            },
+            {
+                "label": "Type C",
+                "count": 1
+            },
+        ]
+    }
+    return jsonify(context)

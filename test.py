@@ -19,7 +19,7 @@ def detect(image):
 if __name__ == '__main__':
     image = cv2.imread("IMG_2292.jpg")
     # result = detect(image)[0]
-    result = model(image)[0]
+    result = model(image)
     # print(results[0].boxes.data)
     box_annotator = sv.BoxAnnotator(
         thickness=3,
@@ -32,4 +32,4 @@ if __name__ == '__main__':
     # frame = box_annotator.annotate(image, detections)
 
     # cv2.imwrite("test_image_result.jpeg", frame)
-    print(result.boxes)
+    print(result)

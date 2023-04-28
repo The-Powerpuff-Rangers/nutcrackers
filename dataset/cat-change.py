@@ -1,7 +1,7 @@
 import os
 
 # directory containing the txt files
-directory = 'TypeC'
+directory = 'dataset/TypeB'
 
 # loop through all files in the directory
 for filename in os.listdir(directory):
@@ -12,6 +12,6 @@ for filename in os.listdir(directory):
             
         with open(os.path.join(directory, f'{filename}'), 'w') as f:
             for line in lines:
-                f.write('2' + line[1:])
+                f.write('1' + line[1:])
                 print(line)
                 

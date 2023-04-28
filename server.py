@@ -42,7 +42,7 @@ def predict():
         The image with bounding boxes.
     """
     # Decode the image
-    img = _decode(request.files["image"])
+    img = _decode(request.data['image'])
     # Predict the bounding boxes
     result = model(img)[0]
 

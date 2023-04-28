@@ -1,4 +1,4 @@
-package com.example.frontend
+package com.powerpuff.nutcracker
 
 import io.flutter.embedding.android.FlutterActivity
 

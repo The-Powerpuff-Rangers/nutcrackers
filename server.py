@@ -32,7 +32,7 @@ def detect():
     frame = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
     result = model(frame, agnostic_nms=True)[0]
 
-    return result
+    return print(results[0].boxes.boxes)
     
 if __name__ == '__main__':
     app.run(debug=True, host='192.168.0.102')

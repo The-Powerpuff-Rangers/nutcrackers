@@ -2,37 +2,52 @@ from ultralytics import YOLO
 import supervision as sv
 import numpy as np
 import cv2
-import argparse
 import flask
 import os
 from flask import request, jsonify
 import base64
 
-ZONE_POLYGON = np.array([
-    [0, 0],
-    [0.5, 0],
-    [0.5, 1],
-    [0, 1]
-])
-
-model = YOLO("model/yolov8m.pt")
-
+# Initialize the Flask application
 app = flask.Flask(__name__)
 
-@app.route('/', methods=['GET'])
-def home():
-    return "<h1>YOLOv8</h1><p>YOLOv8 API.</p>"
+# Initialize the YOLO model
+model = YOLO("model/yolov8m.pt")
 
-@app.route('/api/v1/detect', methods=['POST'])
-def detect():
-    data = request.get_json()
-    image = data['image']
-    image = base64.b64decode(image)
-    npimg = np.frombuffer(image, np.uint8)
-    frame = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
-    result = model(frame, agnostic_nms=True)[0]
+def _decode(img: str) -> np.ndarray:
+    """Decode the image from base64 format.
+    Args: 
+        img: The image in base64 format.
+    Returns:
+        The decoded image.
+    """
+    nparr = np.frombuffer(request.files["image"].read(), np.uint8)
+    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    return img
 
-    return print(results[0].boxes.boxes)
+def _encode(img: np.ndarray) -> str:
+    """Encode the image to base64 format.
     
-if __name__ == '__main__':
-    app.run(debug=True, host='192.168.0.102')
+    Args:
+        img: The image to be encoded.
+    Returns:
+        The encoded image.
+    """
+    _, buffer = cv2.imencode(".jpg", img)
+    return base64.b64encode(buffer).decode("utf-8")
+
+@app.route("/predict", methods=["POST"])
+def predict():
+    """Predict the bounding boxes of the input image.
+    Returns:
+        The image with bounding boxes.
+    """
+    # Decode the image
+    img = _decode(request.files["image"])
+    # Predict the bounding boxes
+    result = model(img)[0]
+
+    frame = None
+
+    # Encode the image
+    img = _encode(frame)
+    return jsonify({"image": img})

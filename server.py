@@ -11,7 +11,7 @@ import base64
 app = flask.Flask(__name__)
 
 # Initialize the YOLO model
-model = YOLO("model/yolov8m.pt")
+model = YOLO("model/yolov8_v2.pt")
 
 def _decode(img: str) -> np.ndarray:
     """Decode the image from base64 format.
@@ -47,6 +47,7 @@ def predict():
     result = model(img)[0]
 
     frame = None
+    
 
     # Encode the image
     img = _encode(frame)

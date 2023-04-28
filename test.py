@@ -7,7 +7,7 @@ import os
 from flask import request, jsonify
 import base64
 
-model = YOLO("model/yolov8m.pt")
+model = YOLO("model/yolov8_v2.pt")
 
 def detect(image):
     npimg = np.frombuffer(image, np.uint8)
@@ -17,7 +17,7 @@ def detect(image):
     return result
 
 if __name__ == '__main__':
-    image = cv2.imread("test_image.jpeg")
+    image = cv2.imread("IMG_2292.jpg")
     # result = detect(image)[0]
     result = model(image)[0]
     # print(results[0].boxes.data)
@@ -32,4 +32,4 @@ if __name__ == '__main__':
     # frame = box_annotator.annotate(image, detections)
 
     # cv2.imwrite("test_image_result.jpeg", frame)
-    print(result.boxes.xywh)
+    print(result.boxes)

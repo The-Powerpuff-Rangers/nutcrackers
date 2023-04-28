@@ -12,6 +12,6 @@ for filename in os.listdir(directory):
             
         with open(os.path.join(directory, f'{filename}'), 'w') as f:
             for line in lines:
-                f.write('3' + line[1:])
+                f.write('2' + line[1:])
                 print(line)
                 

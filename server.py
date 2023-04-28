@@ -53,20 +53,21 @@ def predict():
     # Encode the image
     img = _encode(frame)
 
+    typeA = typeB = typeC = 0
     context = {
         "image": img,
         "data": [
             {
                 "label": "Type A",
-                "count": 10
+                "count": typeA
             },
             {
                 "label": "Type B",
-                "count": 20
+                "count": typeB
             },
             {
                 "label": "Type C",
-                "count": 1
+                "count": typeC
             },
         ]
     }

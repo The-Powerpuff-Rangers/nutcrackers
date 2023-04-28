@@ -1,0 +1,10 @@
+train: /content/nutcrackers/dataset/MicroModel  # train images (relative to 'path') 128 images
+val: /content/nutcrackers/dataset/MicroModel  # val images (relative to 'path') 128 images
+test:  # test images (optional)
+
+# Classes
+names:
+  0: washer
+  1: nut
+  2: bolt
+  

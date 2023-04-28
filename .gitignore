@@ -1,2 +1,11 @@
 # Virtual Environment
 venv
+
+# pycache
+__pycache__
+
+# tmp files
+tmp
+
+# dataset
+dataset

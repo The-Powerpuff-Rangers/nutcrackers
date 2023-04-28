@@ -1,0 +1,17 @@
+# venv
+venv
+
+# dataset
+dataset
+
+# pycache
+__pycache__
+
+# dataset
+dataset
+
+# Mac files
+.DS_Store
+
+# tmp files
+tmp

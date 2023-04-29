@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/model/nut_response.dart';
+import 'package:nutcracker/model/nut_response.dart';
 
 class NutCount extends ConsumerWidget {
   final Nut nut;

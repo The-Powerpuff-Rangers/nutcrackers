@@ -1,25 +1,26 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/provider/providers.dart';
-import 'package:frontend/utils/route.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nutcracker/provider/providers.dart';
+import 'package:nutcracker/utils/route.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   debugRepaintRainbowEnabled = false;
-  {
-    // List of Camera attached to the device
-    List<CameraDescription> cameras = [];
 
-    cameras = await availableCameras();
+  // List of Camera attached to the device
+  List<CameraDescription> cameras = [];
 
-    runApp(ProviderScope(overrides: [
-      cameraDescriptionProvider.overrideWithValue(cameras),
-    ], child: const MyApp()));
-  }
+  cameras = await availableCameras();
+  FlutterNativeSplash.remove();
+  runApp(ProviderScope(overrides: [
+    cameraDescriptionProvider.overrideWithValue(cameras),
+  ], child: const MyApp()));
 }
 
 class MyApp extends ConsumerWidget {

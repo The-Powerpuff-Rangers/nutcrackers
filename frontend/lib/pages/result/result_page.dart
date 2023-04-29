@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/model/nut_response.dart';
-import 'package:frontend/pages/error_screen.dart';
-import 'package:frontend/pages/result/widget/nut_count.dart';
-import 'package:frontend/provider/providers.dart';
+import 'package:nutcracker/model/nut_response.dart';
+import 'package:nutcracker/pages/error_screen.dart';
+import 'package:nutcracker/pages/result/widget/nut_count.dart';
+import 'package:nutcracker/provider/providers.dart';
 import 'package:lottie/lottie.dart';
 
 import '../dashboard/dashboard_page.dart';
@@ -35,7 +35,7 @@ class ResultPage extends ConsumerWidget {
     return WillPopScope(
       onWillPop: () {
         if (futureNuts.isLoading || futureNuts.hasError) {
-          ref.read(clientProvider).cancel('User Cancelled');
+          // ref.read(clientProvider).cancel('User Cancelled');
 
           return Future.value(true);
         }

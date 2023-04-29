@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/pages/camera/camera_screen.dart';
-import 'package:frontend/pages/dashboard/widgets/dashboard_buttons.dart';
-import 'package:frontend/pages/result/result_page.dart';
-import 'package:frontend/utils/route.dart';
-import 'package:frontend/utils/theme.dart';
+import 'package:nutcracker/pages/camera/camera_screen.dart';
+import 'package:nutcracker/pages/dashboard/widgets/dashboard_buttons.dart';
+import 'package:nutcracker/pages/result/result_page.dart';
+import 'package:nutcracker/utils/route.dart';
+import 'package:nutcracker/utils/theme.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 

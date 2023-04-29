@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:frontend/utils/app_colors.dart';
+import 'package:nutcracker/utils/app_colors.dart';
 
 class CameraIconButton extends StatelessWidget {
   final IconData? icon;

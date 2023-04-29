@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
-import 'package:frontend/model/nut_response.dart';
+import 'package:nutcracker/model/nut_response.dart';
 
 class Client {
   final Dio dio;

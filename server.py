@@ -75,11 +75,11 @@ def predict():
     typeA = typeB = typeC = 0
 
     for box in result.boxes:
-        if box.cls == 0 and box.conf > 0.5:
+        if box.cls == 0 and box.conf > 0.35:
             typeA += 1
-        elif box.cls == 1 and box.conf > 0.5:
+        elif box.cls == 1 and box.conf > 0.35:
             typeB += 1
-        elif box.cls == 2 and box.conf > 0.5:
+        elif box.cls == 2 and box.conf > 0.35:
             typeC += 1
 
     context = {
@@ -96,10 +96,6 @@ def predict():
             {
                 "label": "Type C",
                 "count": typeC
-            },
-            {
-                "label": "Unsure",
-                "count": abs(typeA + typeB + typeC - len(result.boxes))
             }
         ]
     }
@@ -107,4 +103,4 @@ def predict():
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="localhost", port=3545)
+    app.run(debug=False, host="10.100.40.135", port=3545)

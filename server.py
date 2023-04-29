@@ -52,7 +52,7 @@ def predict():
     # img = cv2.convertScaleAbs(img, alpha=1.5, beta=0)
 
     # Predict the bounding boxes
-    result = model(img, agnostic_nms=True, iou=0.7, conf=0.40)[0]
+    result = model(img, agnostic_nms=True, iou=0.2, conf=0.40)[0]
 
     box_annotator = sv.BoxAnnotator(
         text_thickness=2,
@@ -74,7 +74,7 @@ def predict():
 
     typeA = typeB = typeC = 0
 
-    conf_threshold = 0.45
+    conf_threshold = 0.5
     for box in result.boxes:
         if box.cls == 0 and box.conf > conf_threshold:
             typeA += 1

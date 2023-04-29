@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/pages/camera/camera_screen.dart';
 import 'package:frontend/pages/dashboard/widgets/dashboard_buttons.dart';
@@ -9,6 +8,7 @@ import 'package:frontend/pages/result/result_page.dart';
 import 'package:frontend/utils/route.dart';
 import 'package:frontend/utils/theme.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../provider/providers.dart';
 
@@ -26,7 +26,20 @@ class DashboardPage extends ConsumerWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: NutCrackerTheme.appUiOverlayStyleLight,
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Coming Soon !'),
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                },
+                icon: const Icon(LucideIcons.history)),
+          ],
+        ),
         body: SafeArea(
           child: Stack(
             children: [
@@ -69,18 +82,11 @@ class DashboardPage extends ConsumerWidget {
                           icon: FeatherIcons.image,
                           title: 'Gallery',
                           onTap: () async {
-                            final image = await ref
-                                .read(imagePickerProvider)
-                                .pickImage(source: ImageSource.gallery);
+                            final image = await ref.read(imagePickerProvider).pickImage(
+                                source: ImageSource.gallery, maxHeight: 640, maxWidth: 640);
                             if (image == null) return;
 
-                            final compressedImage = await FlutterImageCompress.compressWithFile(
-                              image.path,
-                              minHeight: 640,
-                              minWidth: 640,
-                            );
-
-                            final byteImage = compressedImage ?? await image.readAsBytes();
+                            final byteImage = await image.readAsBytes();
 
                             ref.read(currentImageProvider.notifier).update((state) => byteImage);
                             ref.read(routerProvider).push(ResultPage.routeName);

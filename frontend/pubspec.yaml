@@ -44,6 +44,7 @@ dependencies:
   lucide_icons: ^0.187.0
   flutter_feather_icons: ^2.0.0+1
   image_picker: ^0.8.7+4
+  lottie: ^2.3.2
 
 dev_dependencies:
   flutter_test:

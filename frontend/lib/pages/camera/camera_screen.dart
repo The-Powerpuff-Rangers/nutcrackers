@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -202,9 +201,9 @@ class _CameraScreenState extends ConsumerState<CameraScreen> with WidgetsBinding
           child: SafeArea(
             child: LayoutBuilder(builder: (context, constraints) {
               return Stack(alignment: Alignment.center, children: [
-                Positioned(
-                  top: 0,
-                  width: constraints.maxWidth,
+                Positioned.fill(
+                  // top: 0,
+                  // width: constraints.maxWidth,
                   child: _cameraPreview(),
                 ),
                 _buildFocusPointWidget(constraints),
@@ -238,24 +237,22 @@ class _CameraScreenState extends ConsumerState<CameraScreen> with WidgetsBinding
                       },
                     )),
                 Positioned(
-                    bottom: 8,
+                    bottom: 45,
                     left: 16,
                     child: CameraIconButton(
+                      size: const Size(40, 40),
+                      iconSize: 26,
                       icon: FeatherIcons.image,
                       onPressed: () async {
                         final XFile? file = await ref
                             .read(imagePickerProvider)
-                            .pickImage(source: ImageSource.gallery);
+                            .pickImage(source: ImageSource.gallery, maxHeight: 640, maxWidth: 640);
 
                         if (file == null) {
                           return;
                         }
-                        final compressedImage = await FlutterImageCompress.compressWithFile(
-                          file.path,
-                          minHeight: 640,
-                          minWidth: 640,
-                        );
-                        final byteData = compressedImage ?? await file.readAsBytes();
+
+                        final byteData = await file.readAsBytes();
                         ref.read(currentImageProvider.notifier).update((state) => byteData);
                         ref.read(routerProvider).push(ResultPage.routeName);
                       },
@@ -346,21 +343,16 @@ class _CameraScreenState extends ConsumerState<CameraScreen> with WidgetsBinding
         future: _initializeControllerFuture,
         builder: ((context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return Align(
+            return GestureDetector(
               key: _videoPreviewKey,
-              heightFactor: 1,
-              alignment: Alignment.center,
-              child: GestureDetector(
-                onScaleStart: (details) => _baseScaleFactor = _scaleFactor,
-                onScaleUpdate: (details) {
-                  _scaleFactor = _baseScaleFactor * details.scale > 1.0
-                      ? _baseScaleFactor * details.scale
-                      : 1.0;
-                  _controller.setZoomLevel(_scaleFactor);
-                },
-                onTapUp: _setCameraFocus,
-                child: CameraPreview(_controller),
-              ),
+              onScaleStart: (details) => _baseScaleFactor = _scaleFactor,
+              onScaleUpdate: (details) {
+                _scaleFactor =
+                    _baseScaleFactor * details.scale > 1.0 ? _baseScaleFactor * details.scale : 1.0;
+                _controller.setZoomLevel(_scaleFactor);
+              },
+              onTapUp: _setCameraFocus,
+              child: CameraPreview(_controller),
             );
           }
           return const SizedBox.shrink();

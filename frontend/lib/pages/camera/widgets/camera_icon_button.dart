@@ -6,9 +6,13 @@ import 'package:frontend/utils/app_colors.dart';
 class CameraIconButton extends StatelessWidget {
   final IconData? icon;
   final VoidCallback? onPressed;
+  final Size? size;
+  final double? iconSize;
   const CameraIconButton({
     Key? key,
     required this.icon,
+    this.size,
+    this.iconSize,
     this.onPressed,
   }) : super(key: key);
 
@@ -17,7 +21,7 @@ class CameraIconButton extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: CustomPaint(
-        size: const Size(40, 40),
+        size: size ?? const Size(40, 40),
         painter: _CircleBlurPainter(
           circleWidth: 2.0,
           blurSigma: 1.0,
@@ -26,6 +30,7 @@ class CameraIconButton extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Icon(
             icon,
+            size: iconSize,
             color: AppColors.youWhite,
           ),
         ),

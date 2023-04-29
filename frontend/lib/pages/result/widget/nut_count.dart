@@ -8,24 +8,22 @@ class NutCount extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      children: [
-        Text(
-          nut.label,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+    final textTheme = Theme.of(context).textTheme;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+      child: Column(
+        children: [
+          Text(
+            nut.label,
+            style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600, fontSize: 18),
           ),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          nut.count.toString(),
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+          const SizedBox(height: 10),
+          Text(
+            nut.count.toString(),
+            style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500, fontSize: 17),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

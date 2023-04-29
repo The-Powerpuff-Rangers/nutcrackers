@@ -2,11 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-enum Label {
-  washers,
-  nuts,
-  bolts,
-}
+enum Label { washers, nuts, bolts, unsure }
 
 Label fromString(String label) {
   switch (label) {
@@ -16,6 +12,8 @@ Label fromString(String label) {
       return Label.nuts;
     case 'Type C':
       return Label.bolts;
+    case 'Unsure':
+      return Label.unsure;
     default:
       throw Exception('Invalid label: $label');
   }

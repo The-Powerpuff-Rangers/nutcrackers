@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:nutcracker/model/nut_response.dart';
 import 'package:nutcracker/pages/error_screen.dart';
 import 'package:nutcracker/pages/result/widget/nut_count.dart';
 import 'package:nutcracker/provider/providers.dart';
-import 'package:lottie/lottie.dart';
 
 import '../dashboard/dashboard_page.dart';
 
@@ -50,17 +50,20 @@ class ResultPage extends ConsumerWidget {
             child: futureNuts.when(data: (data) {
               return Column(
                 children: [
-                  ConstrainedBox(
-                    constraints: BoxConstraints(maxHeight: size.maxHeight * 0.5),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Image.memory(
-                          data.image,
-                        )),
+                  Center(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(maxHeight: size.maxHeight * 0.5),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Image.memory(
+                            data.image,
+                          )),
+                    ),
                   ),
                   const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    // mainAxisAlignment: MainAxisAlignment.center,
                     children: data.data.map((e) => NutCount(nut: e)).toList(),
                   )
                 ],

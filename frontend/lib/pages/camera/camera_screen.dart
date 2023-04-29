@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:nutcracker/pages/camera/widgets/camera_icon_button.dart';
 import 'package:nutcracker/pages/camera/widgets/focus_point_widget.dart';
 import 'package:nutcracker/pages/camera/widgets/shutter_button.dart';
@@ -16,8 +18,6 @@ import 'package:nutcracker/pages/result/result_page.dart';
 import 'package:nutcracker/utils/app_colors.dart';
 import 'package:nutcracker/utils/route.dart';
 import 'package:nutcracker/utils/theme.dart';
-import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../provider/providers.dart';
 
@@ -224,15 +224,11 @@ class _CameraScreenState extends ConsumerState<CameraScreen> with WidgetsBinding
                       onPressed: () {
                         ref.read(flashModeProvider.notifier).update((state) {
                           if (state == FlashMode.off) {
-                            _controller.setFlashMode(FlashMode.auto);
-                            return FlashMode.auto;
-                          } else if (state == FlashMode.auto) {
-                            _controller.setFlashMode(FlashMode.always);
-                            return FlashMode.always;
-                          } else {
+                            _controller.setFlashMode(FlashMode.torch);
+                            return FlashMode.torch;
+                          } else
                             _controller.setFlashMode(FlashMode.off);
-                            return FlashMode.off;
-                          }
+                          return FlashMode.off;
                         });
                       },
                     )),

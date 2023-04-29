@@ -1,6 +1,15 @@
-FROM --platform=arm64 python:3.9.16
+FROM python:3.9.16
 
-RUN pip install --upgrade pip \
-    -r requirements/prod.txt
+WORKDIR /app
 
-RUN rm -rf requirements
+COPY . /app
+
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+
+RUN pip install -r requirements/prod.txt
+
+RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+
+EXPOSE 5000
+
+ENTRYPOINT ["python", "server.py"]

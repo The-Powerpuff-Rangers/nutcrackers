@@ -9,3 +9,6 @@ tmp
 
 # test scripts
 test.py
+
+# Mac files
+.DS_Store

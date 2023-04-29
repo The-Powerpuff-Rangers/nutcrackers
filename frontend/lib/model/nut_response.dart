@@ -2,8 +2,27 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
+enum Label {
+  washers,
+  nuts,
+  bolts,
+}
+
+Label fromString(String label) {
+  switch (label) {
+    case 'Type A':
+      return Label.washers;
+    case 'Type B':
+      return Label.nuts;
+    case 'Type C':
+      return Label.bolts;
+    default:
+      throw Exception('Invalid label: $label');
+  }
+}
+
 class Nut {
-  final String label;
+  final Label label;
   final int count;
   Nut({
     required this.label,
@@ -11,7 +30,7 @@ class Nut {
   });
 
   Nut copyWith({
-    String? label,
+    Label? label,
     int? count,
   }) {
     return Nut(
@@ -29,7 +48,7 @@ class Nut {
 
   factory Nut.fromMap(Map<String, dynamic> map) {
     return Nut(
-      label: map['label'] ?? '',
+      label: fromString(map['label']),
       count: map['count']?.toInt() ?? 0,
     );
   }
@@ -76,7 +95,6 @@ class NutResponse {
       data: List<Nut>.from(map['data']?.map((x) => Nut.fromMap(x))),
     );
   }
-
 
   factory NutResponse.fromJson(String source) => NutResponse.fromMap(json.decode(source));
 

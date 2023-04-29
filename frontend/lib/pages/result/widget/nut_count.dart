@@ -14,7 +14,7 @@ class NutCount extends ConsumerWidget {
       child: Column(
         children: [
           Text(
-            nut.label,
+            nut.label.name.toUpperCase(),
             style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600, fontSize: 18),
           ),
           const SizedBox(height: 10),

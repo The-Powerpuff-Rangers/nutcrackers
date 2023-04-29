@@ -74,12 +74,14 @@ def predict():
 
     typeA = typeB = typeC = 0
 
+    conf_threshold = 0.4
+
     for box in result.boxes:
-        if box.cls == 0 and box.conf > 0.35:
+        if box.cls == 0 and box.conf > conf_threshold:
             typeA += 1
-        elif box.cls == 1 and box.conf > 0.35:
+        elif box.cls == 1 and box.conf > conf_threshold:
             typeB += 1
-        elif box.cls == 2 and box.conf > 0.35:
+        elif box.cls == 2 and box.conf > conf_threshold:
             typeC += 1
 
     context = {
@@ -96,6 +98,10 @@ def predict():
             {
                 "label": "Type C",
                 "count": typeC
+            },
+            {
+                "label": "Unsure",
+                "count": abs(typeA + typeB + typeC - len(result.boxes))
             }
         ]
     }

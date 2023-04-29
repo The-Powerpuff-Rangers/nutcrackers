@@ -11,7 +11,7 @@ import base64
 app = flask.Flask(__name__)
 
 # Initialize the YOLO model
-model = YOLO("model/yolov8_v2.pt")
+model = YOLO("model/yolov8_v3.pt")
 
 
 def _decode(img: str) -> np.ndarray:
@@ -48,6 +48,10 @@ def predict():
     data = request.get_json()
     img = _decode(data['image'])
 
+    # increase brightness of image
+    # img = cv2.convertScaleAbs(img, alpha=1.5, beta=0)
+    
+
     # Predict the bounding boxes
     result = model(img, agnostic_nms=True)[0]
 
@@ -59,6 +63,7 @@ def predict():
 
     detections = sv.Detections.from_yolov8(result)
 
+
     frame = box_annotator.annotate(
         scene=img, detections=detections)
 
@@ -68,11 +73,11 @@ def predict():
     typeA = typeB = typeC = 0
 
     for box in result.boxes:
-        if box.cls == 0:
+        if box.cls == 0 and box.conf > 0.75:
             typeA += 1
-        elif box.cls == 1:
+        elif box.cls == 1 and box.conf > 0.75:
             typeB += 1
-        elif box.cls == 2:
+        elif box.cls == 2 and box.conf > 0.75:
             typeC += 1
 
     context = {
@@ -95,4 +100,4 @@ def predict():
     return context
 
 if __name__ == "__main__":
-    app.run(debug=True, host='10.100.40.135')
+    app.run(debug=False, host='10.100.40.135', port=3545)

@@ -36,9 +36,14 @@ class MyApp extends ConsumerWidget {
       title: 'Nut Cracker',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        useMaterial3: true,
-        fontFamily: GoogleFonts.poppins().fontFamily,
-      ),
+          useMaterial3: true,
+          fontFamily: GoogleFonts.poppins().fontFamily,
+          colorScheme: ColorScheme.light(
+            secondary: const Color(0XFF2D3336),
+            primary: Color.fromARGB(113, 45, 51, 54),
+            onPrimary: Colors.white,
+            onSecondary: Colors.white.withOpacity(1),
+          )),
     );
   }
 }

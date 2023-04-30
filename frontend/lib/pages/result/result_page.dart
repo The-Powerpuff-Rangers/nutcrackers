@@ -7,21 +7,12 @@ import 'package:nutcracker/pages/result/widget/nut_count.dart';
 import 'package:nutcracker/provider/providers.dart';
 
 import '../dashboard/dashboard_page.dart';
+import 'widget/switch_button.dart';
 
 final predictNutsProvider = FutureProvider.autoDispose<NutResponse>((ref) async {
   final client = ref.watch(clientProvider);
 
   return client.predictImage(ref.watch(currentImageProvider));
-  // return Future.delayed(const Duration(seconds: 100), () {
-  //   return NutResponse(
-  //     image: ref.watch(currentImageProvider),
-  //     data: [
-  //       Nut(label: 'Almond', count: 10),
-  //       Nut(label: 'Cashew', count: 20),
-  //       Nut(label: 'Peanut', count: 30),
-  //     ],
-  //   );
-  // });
 });
 
 class ResultPage extends ConsumerWidget {
@@ -44,7 +35,15 @@ class ResultPage extends ConsumerWidget {
       },
       child: LayoutBuilder(builder: (context, size) {
         return Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            actions: [
+              if (futureNuts.hasValue)
+                Padding(
+                  padding: const EdgeInsets.only(right: 12.0),
+                  child: SwitchButton(),
+                ),
+            ],
+          ),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
             child: futureNuts.when(data: (data) {
@@ -56,7 +55,9 @@ class ResultPage extends ConsumerWidget {
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(16),
                           child: Image.memory(
-                            data.image,
+                            ref.watch(switchButtonProvider)
+                                ? ref.watch(currentImageProvider)
+                                : data.image,
                           )),
                     ),
                   ),

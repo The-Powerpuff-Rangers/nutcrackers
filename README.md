@@ -1,9 +1,7 @@
-
 > First Prize winner at Yamaha Explore AI 2.0
 
 <center>
   
-
  ![image](https://github.com/The-Powerpuff-Rangers/nutcrackers/assets/74452705/4304ab01-9577-4223-831e-0edb1e3ac12b)
 
 
@@ -84,11 +82,12 @@ Although this project is ready, there is always scope for more improvement
 - We will try to improve efficiency of our model for faster runtime.
 
 ## 📸 Screenshots Time
-
-![image](https://github.com/The-Powerpuff-Rangers/nutcrackers/assets/74452705/76aecb64-1d10-482a-a575-7bb63a0be317)
-![image](https://github.com/The-Powerpuff-Rangers/nutcrackers/assets/74452705/6001c672-f5c2-4191-b9ca-33ad4169e69d)
-![image](https://github.com/The-Powerpuff-Rangers/nutcrackers/assets/74452705/e2bc5ad6-008d-4fc1-805e-b9e51f64fa4f)
-![image](https://github.com/The-Powerpuff-Rangers/nutcrackers/assets/74452705/98d2b7dd-e221-431b-84c1-50be78cd9283)
+<p align="middle">
+<img src="https://github.com/The-Powerpuff-Rangers/nutcrackers/assets/74452705/76aecb64-1d10-482a-a575-7bb63a0be317" width="40%"/> 
+<img src="https://github.com/The-Powerpuff-Rangers/nutcrackers/assets/74452705/6001c672-f5c2-4191-b9ca-33ad4169e69d" width="40%"/> 
+<img src="https://github.com/The-Powerpuff-Rangers/nutcrackers/assets/74452705/e2bc5ad6-008d-4fc1-805e-b9e51f64fa4f" width="40%"/>
+<img src="https://github.com/The-Powerpuff-Rangers/nutcrackers/assets/74452705/98d2b7dd-e221-431b-84c1-50be78cd9283" width="40%"/>
+</p>
 
 ## ML Model Statistics
 ![image](https://github.com/The-Powerpuff-Rangers/nutcrackers/assets/74452705/8b28f1de-9a87-431e-bf21-319449e9dc12)
